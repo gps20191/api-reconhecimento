@@ -22,3 +22,16 @@ install:
     #- python: 3.7
       #dist: xenial
       #sudo: true
+
+#deploy:
+#  provider: heroku
+#  api_key:
+#    secure: "$HEROKU_API_KEY"
+#  on:
+#    tags: true
+#    repo: gps20191/api-reconhecimento
+#    branches:    
+#      only:      
+#        - master
+#  app:
+#    develop: api-reconhecimento-gps
