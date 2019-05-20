@@ -23,3 +23,13 @@ Para o envio de uma imagem para o processamento, a aplicação "app-mobile" deve
 <img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/POST_RECEIVE.png"> <br>
 <em>Os campos coloridos não devem ser informado para o usuario, é apenas o escopo de como deve ser guardado no banco de dados.</em> 
 </p>
+
+### Fluxo da aplicação
+A aplicação irá operar com base nas requisições efetuadas via API disponibilizada, ao verificar requisições nao processadas no banco o aplicação irá efetuar o processamento e analise de imagem, caso seja encontrado algum suspeito com base nos dados disponibilizados para o treinamento é feito um envio de alerta para a API-WEB, que então irá tomar as medidas cabiveis.
+
+### Organização dos dados
+Os dados na aplicação serão mantidos da seguinte forma:
+<p align="center">
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/logic_db.png"> <br>
+</p>
+A tabela AlertRequest já foi explicada em [topicos anteriores](https://github.com/gps20191/api-reconhecimento#envio-de-imagem-para-processamento), as tabelas AlertArchive e AlertNotified representam parte do processamento citado no topico anterior, caso seja emitido um alerta para o cliente WEB a data de envio desse alerta é salva, juntamente com os dados da requisição que causou o seu disparo, já a tabela AlertArchive mantem as solicitações que não tiveram a identificação, guardando data e as informações da requisição que não teve sucesso. A tabela procurados é a tabela do banco que representa as informações utilizadas para o treinamento da aplicação, onde é mantido os dados referente ao rosto do procurado(FaceData) e o nome do procurado.
