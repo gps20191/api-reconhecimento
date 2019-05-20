@@ -29,7 +29,9 @@ A aplicação irá operar com base nas requisições efetuadas via API disponibi
 
 ### Organização dos dados
 Os dados na aplicação serão mantidos da seguinte forma:
+
 <p align="center">
-<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/logic_db.png"> <br>
-</p>
-A tabela AlertRequest já foi explicada em [topicos anteriores](https://github.com/gps20191/api-reconhecimento#envio-de-imagem-para-processamento), as tabelas AlertArchive e AlertNotified representam parte do processamento citado no topico anterior, caso seja emitido um alerta para o cliente WEB a data de envio desse alerta é salva, juntamente com os dados da requisição que causou o seu disparo, já a tabela AlertArchive mantem as solicitações que não tiveram a identificação, guardando data e as informações da requisição que não teve sucesso. A tabela procurados é a tabela do banco que representa as informações utilizadas para o treinamento da aplicação, onde é mantido os dados referente ao rosto do procurado(FaceData) e o nome do procurado.
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/logic_db.png"> 
+</p><br>
+
+A tabelaAlertRequest já foi explicada em [topicos anteriores](https://github.com/gps20191/api-reconhecimento#envio-de-imagem-para-processamento), as tabelas AlertArchive e AlertNotified representam parte do processamento citado no topico anterior, caso seja emitido um alerta para o cliente WEB a data de envio desse alerta é salva, juntamente com os dados da requisição que causou o seu disparo, já a tabela AlertArchive mantem as solicitações que não tiveram a identificação, guardando data e as informações da requisição que não teve sucesso. A tabela procurados é a tabela do banco que representa as informações utilizadas para o treinamento da aplicação, onde é mantido os dados referente ao rosto do procurado(FaceData) e o nome do procurado.
