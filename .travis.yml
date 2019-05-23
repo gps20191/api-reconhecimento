@@ -16,7 +16,7 @@ install:
 
 script: tox
 
- Temporary for Python 3.7
+# Temporary for Python 3.7
 matrix:
   include:
     - python: 3.7
