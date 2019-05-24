@@ -6,9 +6,10 @@ python:
   - "3.6"
 
 before_install:
-- sudo apt-get -qq update
-- sudo apt-get install -qq cmake python-numpy python-scipy libboost-python-dev
+#- sudo apt-get -qq update
+#- sudo apt-get install -qq cmake python-numpy python-scipy libboost-python-dev
 #- pip install git+https://github.com/ageitgey/face_recognition_models
+ - sudo apt-get cmake dblib
 
 install:
   - pip install face_recognition
