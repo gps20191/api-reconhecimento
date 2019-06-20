@@ -1,8 +1,8 @@
 CREATE TABLE AlertRequest(
     RequestId SERIAL PRIMARY KEY,
-    Processed BIT,
-    Match BIT,
-    Alerted BIT,
+    Processed BOOLEAN,
+    Match BOOLEAN,
+    Alerted BOOLEAN,
     UrlPhoto VARCHAR,
     BlobImg VARCHAR,
     Latitude REAL,
