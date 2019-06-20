@@ -30,11 +30,6 @@ def training(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_t
     """
     X = []
     y = []
-    # emtrando no diretorio de treinamento
-    # for class_dir in os.listdir(train_dir):
-    # if not os.path.isdir(os.path.join(train_dir, class_dir)):
-    #    continue
-
     # percorrendo cada imagem no diretorio
     for img_path in image_files_in_folder(os.path.join(train_dir)):
             suspectName = img_path.split('/')

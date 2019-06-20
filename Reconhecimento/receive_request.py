@@ -13,10 +13,11 @@ def update_table(informations,database):
 	alerts = database.table
 	database.table.update(processed=informations.processed,match=informations.match,
 	alerted=informations.alerted).where(alerts.requestid==informations.id_request).execute()
-	print('PASSED')
+	print('ALERTA %s ATUALIZADO NO BANCO' %(informations.id_request))
 
 
 def main():
+	print('INICIANDO O PROCESSOR DE RECONHECIMENDO NOS PEDIDOS PENDENTES')
 	table_db = AlertDb()
 	query = table_db.table.select().where(table_db.table.processed == False)
 	for row in query:
@@ -48,7 +49,7 @@ def main():
 		update_table(request,table_db)
 
 
-	print('ended')
+	print('PEDIDOS PROCESSADOS')
 
 if __name__ == '__main__':
 	main()

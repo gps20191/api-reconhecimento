@@ -23,6 +23,7 @@ def create_photos(suspect_data):
 
 
 def main():
+	print('INCIANDO O TREINAMENTO COM AS FOTOS DO BANCO DE SUSPEITOS')
 	table_db = Suspectdb()
 	# busca todas as imagens disponiveis no banco de dados
 	query = table_db.table.select()
@@ -34,8 +35,9 @@ def main():
 
 	# criacao das imagens em um diretorio local para o treinamento
 	create_photos(suspect_data)
-	trainning = training("./train_photos", model_save_path="./trained_knn_model.clf", n_neighbors=2)
-	print('the new photos has been processed')
+	# criacao do arquivo de treino
+	classifier = training("./train_photos", model_save_path="./trained_knn_model.clf", n_neighbors=2)
+	print('FINALIZADO O TREINAMENTO, O BANCO DE SUSPEITOS ACABA DE SER PROCESSADO')
 
 
 if __name__ == '__main__':

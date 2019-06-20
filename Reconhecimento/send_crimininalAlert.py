@@ -14,10 +14,12 @@ def criminal_alert_sender(data_informations, suspect_id):
 		'urlFoto':data_informations.url_photo,	
 		'capturado': False
 						}
+	# montagem da requisicao para a o sistema web de alertas
 	url_post = 'https://alerta-api.azurewebsites.net/api/alertas'
 	post_request = urllib.request.Request(url_post)
 	post_request.add_header('Content-Type','application/json')
 	post_data = dumps(information_pack,default=str)
+	# ------------------------------------------------------
 	try:
 		with urllib.request.urlopen(post_request,post_data.encode('utf-8')) as response:
 			alerted = True
