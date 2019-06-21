@@ -1,37 +1,82 @@
 # API-RECONHECIMENTO
 
 ### Depedencias
-A aplicação tem como base a biblioteca disponibilizada por [Adam Geitgey](https://github.com/ageitgey/face_recognition). Sendo assim necessaria instalação da biblioteca disponibilizada no link.<br>
+A aplicação tem como base a biblioteca disponibilizada por [Adam Geitgey](https://github.com/ageitgey/face_recognition). Sendo assim necessaria instalação da biblioteca disponibilizada no link.
+
+Além da biblioteca de reconhecimento, a aplicação faz uso da ORM da linguagem Python chamada [Peewee](http://docs.peewee-orm.com/en/latest/).
 
 
 
-### Uso
+### Demonstração de uso
 Apos a instalação da biblioteca basta clonar o repositorio e executar os seguintes
 
-```sh
-api-reconhecimento$ python Treinamento/train_code.py
-api-reconhecimento$ python Reconhecimento/recognition_code.py
-```
-Os comando devem ser executados na orde exposta, uma vez que é necessario o arquivo de reinamento gerado atraves do primeiro comando executado.<br>
+Nas imagens a seguir sera exibido um dos modos de execução da aplicação.
 
-Atualmente a aplicação não esta fazendo uso de banco de dados, os dados  utilizados, tanto para treinamento e reconhecimento estao sendo extraidos a partir de diretorios no projeto, as imagens para treinamento deve estar dentro da pasta [train_img](https://github.com/gps20191/api-reconhecimento/tree/master/train_img), pasta na qual onde deve ser criada uma outra pasta com o nome da pessoa no qual irá ser informada as fotos do rosto da mesma, essas fotos devem ter somente a pessoa em questao, tendo assim tendo apenas os dados referente ao rosto da pessoa X.
-Para efetuar o reconhecimento as imagens devem estar na pastar [test](https://github.com/gps20191/api-reconhecimento/tree/master/test), nesta pasta nao é necessario nenhuma outra operação apenas a adição das imagens na qual a aplicação deve fazer o reconhecimento.<br>
-
-### Envio de imagem para processamento
-Para o envio de uma imagem para o processamento, a aplicação "app-mobile" deve efetuar uma requisição POST atraves da URL {link api aqui} informando os seguintes dados.<br>
 <p align="center">
-<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/POST_RECEIVE.png"> <br>
-<em>Os campos coloridos não devem ser informado para o usuario, é apenas o escopo de como deve ser guardado no banco de dados.</em> 
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/ENV_ACTIVE.PNG"> <br>
+<em>Neste caso as instalações necessarias foram feitas em um ambiente virtual python, sendo necessario ativa-lo</em> 
 </p>
+<br>
 
-### Fluxo da aplicação
-A aplicação irá operar com base nas requisições efetuadas via API disponibilizada, ao verificar requisições nao processadas no banco o aplicação irá efetuar o processamento e analise de imagem, caso seja encontrado algum suspeito com base nos dados disponibilizados para o treinamento é feito um envio de alerta para a API-WEB, que então irá tomar as medidas cabiveis.
-
-### Organização dos dados
-Os dados na aplicação serão mantidos da seguinte forma:
+Apos o processo anterior é necessario que faça o treinamento da aplicação. Em nossa aplicação as imagens ficam salva no banco de dados no formato base64, mais informações sobre o banco de dados será falado mais à frente.
 
 <p align="center">
-<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/logic_db.png"> 
-</p><br>
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/TREINAMENTO.PNG"> <br>
+<em>Processo de treinamento da aplicação</em> 
+</p>
+<br>
 
-A tabelaAlertRequest já foi explicada em [topicos anteriores](https://github.com/gps20191/api-reconhecimento#envio-de-imagem-para-processamento), as tabelas AlertArchive e AlertNotified representam parte do processamento citado no topico anterior, caso seja emitido um alerta para o cliente WEB a data de envio desse alerta é salva, juntamente com os dados da requisição que causou o seu disparo, já a tabela AlertArchive mantem as solicitações que não tiveram a identificação, guardando data e as informações da requisição que não teve sucesso. A tabela procurados é a tabela do banco que representa as informações utilizadas para o treinamento da aplicação, onde é mantido os dados referente ao rosto do procurado(FaceData) e o nome do procurado.
+Uma vez que o treinamento foi feito com sucesso podemos processar as requisições enviadas pelo os usuario do aplicativo movel.
+
+<p align="center">
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/REQUISICOES.PNG"> <br>
+<em>Consumo das requisições ainda não processadas disponivel no banco de dados</em> 
+</p>
+<br>
+
+### Estrutura do banco de dados
+
+A aplicação faz uso de duas tabelas, e essas duas tabelas estão em bancos distindos, logo abaixo é mostrata a estrutura das tabelas e seus componentes.
+
+<p align="center">
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/data_base.svg"> <br>
+</p>
+<br>
+
+Exibição da tabela de suspeitos
+```sql
+SELECT * FROM SUSPEITOS
+```
+<br>
+<p align="center">
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/SELECT_SUSPEITOS.PNG"> <br>
+</p>
+<br>
+
+Exibição da tabela de requisições
+```sql
+SELECT * FROM ALERTREQUEST
+```
+<br>
+<p align="center">
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/SELECT_ALERT.PNG"> <br>
+<em>Toda vez que é recebida uma requição os parametros "processed", "match" e "alerted" são atribuidos como falso</em>
+</p>
+<br>
+
+### Recebimento de requisições
+O nosso sistema trabalha em volta das requisições envidas pelo o usuario do aplicativo mobile, essas requisições são recebidas via metodo POST através do link https://api-process.herokuapp.com/ e devem informar os seguintes parametros
+<p align="center">
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/post_parameters.svg"> <br>
+<em>Listagem dos parametros de cima para abaixo, idphoto, urlphoto, latitude, longitude, requestdate, numbus, blobimg</em>
+</p>
+<br>
+
+### Fluxo de operação
+A partir do momento que o sistema recebe uma requisição, ele opera da seguinte maneira:
+<br>
+<p align="center">
+<img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/REQUEST_FLOW.svg"> <br>
+<em>Toda vez que é recebida uma requição os parametros "processed", "match" e "alerted" são atribuidos como falso</em>
+</p>
+<br>
