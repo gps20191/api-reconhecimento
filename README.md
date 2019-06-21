@@ -77,6 +77,5 @@ A partir do momento que o sistema recebe uma requisição, ele opera da seguinte
 <br>
 <p align="center">
 <img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/REQUEST_FLOW.svg"> <br>
-<em>Toda vez que é recebida uma requição os parametros "processed", "match" e "alerted" são atribuidos como falso</em>
 </p>
 <br>
