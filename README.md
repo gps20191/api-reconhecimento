@@ -42,6 +42,8 @@ A aplicação faz uso de duas tabelas, e essas duas tabelas estão em bancos dis
 <img src="https://github.com/gps20191/api-reconhecimento/blob/master/DOC_APP/Imagens/data_base.svg"> <br>
 </p>
 <br>
+O banco referente aos suspeitos trabalha com uma tabela de suspeitos como mostrado na imagem anterior onde é armazenado o nome do suspeito e o base64 da imagem referente ao seu rosto. A referencia desse suspeito no processo de emissão de alerta sera feita através do seu id, possibilitando futuramente fazer o link de outras informações referente a pessoa, diferente das informações atuais se constam apenas o nome.
+<br>
 
 Exibição da tabela de suspeitos
 ```sql
